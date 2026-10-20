@@ -34,20 +34,17 @@ A web app for a clothing shop to track shirt stock by size, create bills with PD
 ![Flask](https://img.shields.io/badge/Flask-web%20app-lightgrey)
 ![SQLite](https://img.shields.io/badge/Database-SQLite-green)
 
-## 📑 Quick links
-[Screenshots](#-screenshots) · [Features](#-features) · [Setup](#-setup) · [How to use](#-how-to-use) · [Security](#-security-notes) · [Troubleshooting](#-troubleshooting) · [Support](#-support)
+
 
 ---
 
 | Login | Home dashboard |
 |---|---|
-| <img src="screenshots/login.png" alt="Login page" width="400"> | <img src="screenshots/home.png" alt="Home dashboard" width="400"> |
+| <img src="screenshots/login.png" alt="Login page" height="300"> | <img src="screenshots/home.png" alt="Home dashboard" height="300"> |
 
-| Billing | Invoice PDF |
+| Billing | Invoices |
 |---|---|
-| <img src="screenshots/bill.png" alt="Billing page" width="400"> | <img src="screenshots/invoices.png" alt="Invoices page" width="400"> |
----
-
+| <img src="screenshots/bill.png" alt="Billing page" height="300"> | <img src="screenshots/invoices.png" alt="Invoices page" height="300"> |
 ## ✨ Features
 
 - 🔐 **Secure login**: admin username and hashed password; every page is protected
