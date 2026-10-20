@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>Add shirt model</h2>
+  <form method="POST">
+    <input name="name" placeholder="Model (e.g. White)" required>
+    <input name="price" type="number" step="0.01" min="0.01" placeholder="Price per shirt" required>
+    <label>Warn when stock is below
+      <input name="low_stock_limit" type="number" min="0" value="10">
+    </label>
+    <button type="submit">Add</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All models</h2>
+  <table>
+    <tr><th>Model</th><th>Price</th><th>Low stock warning</th><th></th></tr>
+    {% for p in products %}
+    <tr>
+      <td>{{ p.name }}</td>
+      <td>{{ "%.2f"|format(p.price) }}</td>
+      <td>below {{ p.low_stock_limit }}</td>
+      <td><a href="/products/{{ p.id }}/edit">Edit</a></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">No models yet. Add your first one above.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

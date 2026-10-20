@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>Correct stock</h2>
+  <p>Type the <b>correct number of pieces</b> for one size. It replaces the current number.</p>
+  <form method="POST">
+    <select name="product_id" id="product" required>
+      <option value="">Select model</option>
+      {% for p in products %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+    </select>
+    <select name="size" id="size" required>
+      {% for s in sizes %}<option>{{ s }}</option>{% endfor %}
+    </select>
+    <input name="new_quantity" type="number" min="0" placeholder="Correct quantity" required>
+    <input name="reason" placeholder="Reason (required)" required style="width:240px">
+    <button type="submit">Save correction</button>
+  </form>
+  <p>Current stock: <b id="current">-</b></p>
+</div>
+
+<div class="card">
+  <h2>Recent corrections</h2>
+  <table>
+    <tr><th>Date</th><th>Model</th><th>Size</th><th>Before</th><th>After</th><th>Reason</th></tr>
+    {% for a in adjustments %}
+    <tr>
+      <td>{{ a.date.strftime("%d %b %Y, %H:%M") }}</td>
+      <td>{{ a.product.name }}</td>
+      <td>{{ a.size }}</td>
+      <td>{{ a.old_quantity }}</td>
+      <td>{{ a.new_quantity }}</td>
+      <td>{{ a.reason }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">No corrections yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<script>
+  const catalog = {{ catalog|tojson }};
+  const prod = document.getElementById("product");
+  const size = document.getElementById("size");
+  const cur = document.getElementById("current");
+
+  function showCurrent() {
+    const p = catalog[prod.value];
+    cur.textContent = p ? p[size.value] : "-";
+  }
+  prod.addEventListener("change", showCurrent);
+  size.addEventListener("change", showCurrent);
+</script>
+
+{% endblock %}

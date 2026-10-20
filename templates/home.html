@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="hello">Welcome to Braud Clothing</h1>
+<p class="subtle">{{ today }}</p>
+
+<div class="stats">
+  <a class="stat" href="/dashboard">
+    <span class="num">{{ total_pieces }}</span>
+    <span>Shirts in stock</span>
+  </a>
+  <a class="stat {% if low or out %}warn{% endif %}" href="/dashboard">
+    <span class="num">{{ low + out }}</span>
+    <span>Models low or out of stock</span>
+  </a>
+  <a class="stat" href="/invoices">
+    <span class="num">{{ "%.2f"|format(sales_today) }}</span>
+    <span>Sales today ({{ bills_today }} bills)</span>
+  </a>
+</div>
+
+<div class="tiles">
+  <a class="tile" href="/billing">
+    <span class="ico">🧾</span><b>New Bill</b>
+    <small>Sell shirts and make a PDF bill</small>
+  </a>
+  <a class="tile" href="/stock">
+    <span class="ico">📦</span><b>Add Stock</b>
+    <small>Enter new sets that arrived</small>
+  </a>
+  <a class="tile" href="/dashboard">
+    <span class="ico">📊</span><b>Stock Status</b>
+    <small>See what is left, by size</small>
+  </a>
+  <a class="tile" href="/invoices">
+    <span class="ico">📄</span><b>Invoices</b>
+    <small>Past bills, PDFs and cancellations</small>
+  </a>
+  <a class="tile" href="/products">
+    <span class="ico">👕</span><b>Products</b>
+    <small>Shirt models and prices</small>
+  </a>
+  <a class="tile" href="/adjust">
+    <span class="ico">🛠</span><b>Correct Stock</b>
+    <small>Fix a wrong stock number</small>
+  </a>
+</div>
+
+{% endblock %}

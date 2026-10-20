@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>Invoices</h2>
+  <table>
+    <tr><th>No.</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr>
+    {% for i in invoices %}
+    <tr {% if i.status == "Cancelled" %}style="color:#999"{% endif %}>
+      <td>{{ i.invoice_no }}</td>
+      <td>{{ i.customer_name }}</td>
+      <td>{{ i.date.strftime("%d %b %Y") }}</td>
+      <td {% if i.status == "Cancelled" %}style="text-decoration:line-through"{% endif %}>
+        {{ "%.2f"|format(i.total) }}
+      </td>
+      <td>
+        {% if i.status == "Cancelled" %}Cancelled<br><small>{{ i.cancel_reason }}</small>
+        {% else %}Active{% endif %}
+      </td>
+      <td>
+        <a href="/invoice/{{ i.id }}/pdf">Open PDF</a>
+        {% if i.status != "Cancelled" %}
+        <form method="POST" action="/invoice/{{ i.id }}/cancel" style="margin-top:6px"
+              onsubmit="return confirm('Cancel {{ i.invoice_no }}? The stock will be added back.')">
+          <input name="reason" placeholder="Reason" required style="width:130px">
+          <button type="submit">Cancel</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">No bills yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

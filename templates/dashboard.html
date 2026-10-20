@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>Current stock</h2>
+  <table>
+    <tr>
+      <th>Model</th><th>S</th><th>M</th><th>L</th><th>XL</th>
+      <th>Total</th><th>Status</th>
+    </tr>
+    {% for r in rows %}
+    <tr>
+      <td>{{ r.name }}</td>
+      {% for size in sizes %}
+      <td style="{% if r.sizes[size] == 0 %}color:#c0392b;font-weight:bold{% endif %}">
+        {{ r.sizes[size] }}
+      </td>
+      {% endfor %}
+      <td><b>{{ r.total }}</b></td>
+      <td>
+        {% if r.status == "Out" %}<span style="color:#c0392b;font-weight:bold">Out of stock</span>
+        {% elif r.status == "Low" %}<span style="color:#d9730d;font-weight:bold">Low (below {{ r.limit }})</span>
+        {% else %}<span style="color:#1e8449">OK</span>{% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7">No models yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

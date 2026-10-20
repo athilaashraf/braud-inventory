@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>Add stock</h2>
+  <p>1 set = 4 shirts (S, M, L, XL). Each size gets the number of sets you enter.</p>
+  <form method="POST">
+    <select name="product_id" required>
+      <option value="">Select model</option>
+      {% for p in products %}
+      <option value="{{ p.id }}">{{ p.name }}</option>
+      {% endfor %}
+    </select>
+    <input name="sets" type="number" min="1" placeholder="Number of sets" required>
+    <button type="submit">Add stock</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Recent deliveries</h2>
+  <table>
+    <tr><th>Date</th><th>Model</th><th>Sets</th><th>Pieces</th></tr>
+    {% for e in entries %}
+    <tr>
+      <td>{{ e.date.strftime("%d %b %Y, %H:%M") }}</td>
+      <td>{{ e.product.name }}</td>
+      <td>{{ e.sets }}</td>
+      <td>{{ e.pieces }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">No stock added yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

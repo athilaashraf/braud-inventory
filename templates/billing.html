@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+  <h2>New bill</h2>
+  <form method="POST">
+    <input name="customer_name" placeholder="Customer name" required>
+    <input name="phone" placeholder="Phone number" required>
+
+    <table id="items">
+      <tr><th>Model</th><th>Size</th><th>Qty</th><th>Price</th><th>Amount</th><th>Available</th><th></th></tr>
+    </table>
+    <p><button type="button" onclick="addRow()">+ Add item</button></p>
+
+        <p>
+      <label>Discount
+        <input name="discount" id="discount" type="number" step="0.01" min="0" value="0" style="width:100px">
+      </label>
+      <select name="discount_type" id="dtype">
+        <option value="percent">%</option>
+        <option value="amount">Amount</option>
+      </select>
+    </p>
+    <p>Subtotal: <span id="sub">0.00</span></p>
+    <p>Discount: -<span id="disc">0.00</span></p>
+    <h3>Total: <span id="grand">0.00</span></h3>
+    <button type="submit">Save bill</button>
+  </form>
+</div>
+
+<template id="rowtpl">
+  <tr class="item">
+    <td>
+      <select name="product_id">
+        <option value="">Select model</option>
+        {% for p in products %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+      </select>
+    </td>
+    <td>
+      <select name="size">
+        {% for s in sizes %}<option>{{ s }}</option>{% endfor %}
+      </select>
+    </td>
+    <td><input name="quantity" type="number" min="1" value="1" style="width:70px"></td>
+    <td class="price">0.00</td>
+    <td class="amount">0.00</td>
+    <td class="avail"></td>
+    <td><button type="button" onclick="removeRow(this)">x</button></td>
+  </tr>
+</template>
+
+<script>
+  const catalog = {{ catalog|tojson }};
+  const table = document.getElementById("items");
+
+  function addRow() {
+      document.getElementById("discount").addEventListener("input", recalc);
+  document.getElementById("dtype").addEventListener("change", recalc);
+    table.appendChild(document.getElementById("rowtpl").content.cloneNode(true));
+  }
+
+  function removeRow(btn) {
+    btn.closest("tr").remove();
+    recalc();
+  }
+
+  function recalc() {
+    let grand = 0;
+    table.querySelectorAll("tr.item").forEach(function (row) {
+      const pid = row.querySelector("[name=product_id]").value;
+      const size = row.querySelector("[name=size]").value;
+      const qty = parseInt(row.querySelector("[name=quantity]").value) || 0;
+      const p = catalog[pid];
+      const price = p ? p.price : 0;
+      const avail = p ? p.stock[size] : null;
+
+      row.querySelector(".price").textContent = price.toFixed(2);
+      row.querySelector(".amount").textContent = (price * qty).toFixed(2);
+      row.querySelector(".avail").textContent = p ? avail : "";
+      row.querySelector(".avail").style.color = (p && qty > avail) ? "#c0392b" : "";
+      grand += price * qty;
+    });
+       const dval = parseFloat(document.getElementById("discount").value) || 0;
+    const dtype = document.getElementById("dtype").value;
+    let disc = dtype === "percent" ? grand * dval / 100 : dval;
+    if (disc > grand) disc = grand;
+    document.getElementById("sub").textContent = grand.toFixed(2);
+    document.getElementById("disc").textContent = disc.toFixed(2);
+    document.getElementById("grand").textContent = (grand - disc).toFixed(2);
+  }
+
+  table.addEventListener("input", recalc);
+  table.addEventListener("change", recalc);
+  addRow();
+</script>
+
+{% endblock %}
