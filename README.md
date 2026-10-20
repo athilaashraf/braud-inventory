@@ -43,7 +43,7 @@ A web app for a clothing shop to track shirt stock by size, create bills with PD
 
 | Login | Home dashboard |
 |---|---|
-| <img src="docs/login.png" alt="Login page" width="400"> | <img src="docs/home.png" alt="Home dashboard" width="400"> |
+| <img src="screenshots/login.png" alt="Login page" width="400"> | <img src="screenshots/home.png" alt="Home dashboard" width="400"> |
 
 | Billing | Invoice PDF |
 |---|---|
