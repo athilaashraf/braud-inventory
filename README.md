@@ -237,14 +237,6 @@ The model or size doesn't have enough pieces. Check **Stock Status**, then use *
 Stop the app, delete the database file (`braud.db`), and start the app again. **This deletes all data**, so back it up first.
 </details>
 
-## 📞 Support
-
-Developer: **[Your name]**
-Email: [your email] · WhatsApp: [your number]
-
-When you report a problem, please include the page, what you did, what happened, and a screenshot.
-
----
 Built with Flask, SQLAlchemy and SQLite.
 
 ## 🚀 Setup
